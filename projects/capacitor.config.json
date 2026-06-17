@@ -1,0 +1,8 @@
+{
+  "appId": "com.skygis.universe",
+  "appName": "SkyGIS",
+  "webDir": ".next",
+  "server": {
+    "url": "https://e2d528c1-3612-48a4-9d0d-3daa2dd222f8.dev.coze.site"
+  }
+}

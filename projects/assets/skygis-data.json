@@ -1,0 +1,67 @@
+{
+  "name": "SkyGIS全数据集",
+  "version": "1.0.0",
+  "exportDate": "2026-06-07",
+  "engines": {
+    "count": 8,
+    "list": [
+      {"id": "gravity", "name": "万有引力引擎", "formula": "F=Gm₁m₂/r²", "description": "任意物体间的吸引力", "constant": "G=6.674×10⁻¹¹", "applications": ["行星轨道", "卫星运动", "潮汐"]},
+      {"id": "electromagnetic", "name": "电磁力引擎", "formula": "F=kq₁q₂/r²", "description": "带电粒子相互作用", "constant": "k=8.988×10⁹", "applications": ["电磁辐射", "粒子加速"]},
+      {"id": "strongNuclear", "name": "强核力引擎", "formula": "强相互作用", "description": "夸克/核子束缚力", "constant": "αs≈1", "applications": ["核聚变", "核裂变"]},
+      {"id": "weakNuclear", "name": "弱核力引擎", "formula": "G_F=1.166×10⁻⁵", "description": "放射性衰变", "constant": "G_F", "applications": ["β衰变", "中微子"]},
+      {"id": "inertial", "name": "惯性力引擎", "formula": "F=-ma", "description": "非惯性系虚拟力", "constant": "无", "applications": ["加速度系统"]},
+      {"id": "centrifugal", "name": "离心力引擎", "formula": "F=mω²r", "description": "旋转惯性力", "constant": "ω", "applications": ["离心机", "洗衣机"]},
+      {"id": "coriolis", "name": "科里奥利力引擎", "formula": "F=2mv×ω", "description": "旋转偏转力", "constant": "ω=7.292×10⁻⁵", "applications": ["季风", "飓风"]},
+      {"id": "tidal", "name": "潮汐力引擎", "formula": "ΔF=2GMmR/r³", "description": "引力梯度效应", "constant": "GM", "applications": ["海洋潮汐", "潮汐加热"]}
+    ]
+  },
+  "coordinates": {
+    "count": 8,
+    "list": [
+      {"id": "geocentric", "name": "地心坐标系", "center": "地球中心", "reference": "地球", "applications": ["卫星轨道", "GPS"]},
+      {"id": "heliocentric", "name": "日心坐标系", "center": "太阳中心", "reference": "太阳", "applications": ["行星轨道"]},
+      {"id": "galactocentric", "name": "银心坐标系", "center": "银河系中心", "reference": "银河系", "applications": ["恒星运动"]},
+      {"id": "equatorial", "name": "赤道坐标系", "center": "地心", "reference": "天赤道", "applications": ["天文观测"]},
+      {"id": "ecliptic", "name": "黄道坐标系", "center": "日心", "reference": "黄道面", "applications": ["行星运动"]},
+      {"id": "galactic", "name": "银道坐标系", "center": "日心", "reference": "银道面", "applications": ["银河天体"]},
+      {"id": "horizontal", "name": "地平坐标系", "center": "观测者", "reference": "地平线", "applications": ["天文观测"]},
+      {"id": "supergalactic", "name": "超星系坐标系", "center": "本超星系团", "reference": "超星系平面", "applications": ["宇宙学"]}
+    ]
+  },
+  "solarSystem": {
+    "star": {"name": "太阳", "mass": "1.989×10³⁰ kg", "radius": "696,340 km"},
+    "planets": [
+      {"name": "水星", "orbit": "0.387 AU", "mass": "3.301×10²³ kg"},
+      {"name": "金星", "orbit": "0.723 AU", "mass": "4.867×10²⁴ kg"},
+      {"name": "地球", "orbit": "1.0 AU", "mass": "5.972×10²⁴ kg"},
+      {"name": "火星", "orbit": "1.524 AU", "mass": "6.417×10²³ kg"},
+      {"name": "木星", "orbit": "5.203 AU", "mass": "1.898×10²⁷ kg"},
+      {"name": "土星", "orbit": "9.537 AU", "mass": "5.683×10²⁶ kg"},
+      {"name": "天王星", "orbit": "19.19 AU", "mass": "8.681×10²⁵ kg"},
+      {"name": "海王星", "orbit": "30.07 AU", "mass": "1.024×10²⁶ kg"}
+    ],
+    "dwarfPlanets": ["冥王星", "谷神星", "阋神星", "妊神星", "鸟神星"],
+    "moons": ["月球", "木卫一", "木卫二", "木卫三", "木卫四", "土卫六", "天卫一", "海卫一"]
+  },
+  "cosmicDatabase": {
+    "totalCount": 17980,
+    "elements": 118,
+    "molecules": 61,
+    "isotopes": 81,
+    "dust": 1100,
+    "cosmicRay": 1050,
+    "darkMatter": 1080,
+    "plasma": 960,
+    "radiation": 1020,
+    "magnetic": 900,
+    "intermediate": 960,
+    "celestial": 2010,
+    "organic": 1880,
+    "inorganic": 1100,
+    "particle": 1200,
+    "energy": 1160,
+    "wave": 1050,
+    "state": 1080,
+    "phenomenon": 1170
+  }
+}

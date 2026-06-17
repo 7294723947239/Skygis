@@ -1,0 +1,22 @@
+{
+  "name": "SkyGIS - 太阳系天体地理信息系统",
+  "short_name": "SkyGIS",
+  "description": "融合GIS空间技术与天文数据的太阳系天体地理信息系统",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#0f172a",
+  "theme_color": "#06b6d4",
+  "orientation": "any",
+  "icons": [
+    {
+      "src": "/icons/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "/icons/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
+}
