@@ -250,23 +250,31 @@ pnpm ts-check         # TypeScript 类型检查
 ### 目录结构
 - **工作区根目录**: `/workspace/projects/`
 - **技术项目根目录**: `/workspace/projects/projects/`
-- **预览脚本**: `/workspace/projects/scripts/coze-preview-*.sh`
+- **脚本目录**: `/workspace/projects/projects/scripts/`
 
-### 预览链路
-- 项目位于 `projects` 子目录，根目录包装脚本进入子目录执行
+### .coze 配置
+- **根 .coze**: `/workspace/projects/.coze` (平台最终读取入口)
+- **子项目 .coze**: `/workspace/projects/projects/.coze` (项目级配置)
+- **subprojects 注册**: `["projects"]`
+
+### 脚本定位逻辑
+所有脚本使用 `SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"` + `PROJECT_DIR="$(cd "$SCRIPT_DIR/.." && pwd)"` 基于自身位置定位项目根目录，确保无论从哪个目录执行都能正确工作。
+
+### 预览链路 (dev)
 - `build`: 安装依赖 (`pnpm install`)
-- `run`: 启动生产服务器 (`pnpm next start -p 5000`)
-- 端口: 5000 (IPv4 全接口 `0.0.0.0:5000`)
+- `run`: 启动开发服务器 (`PORT=5000 pnpm tsx watch src/server.ts`)
+- `validate`: 运行类型检查和 lint (`pnpm validate`)
+- 端口: 5000 (IPv4 全接口 `*:5000`)
 
-### 部署链路
+### 部署链路 (deploy)
 - `build`: `pnpm install` + `pnpm next build` + `pnpm tsup` 打包
-- `run`: `node dist/server.js`
+- `run`: `PORT=5000 node dist/server.js`
+- `profile`: kind=service, flavor=web
 - 端口: 5000
 
 ### 环境变量
 | 变量名 | 说明 | 默认值 |
 |--------|------|--------|
-| COZE_WORKSPACE_PATH | 项目路径 | 当前目录 |
 | DEPLOY_RUN_PORT | 服务端口 | 5000 |
 | PORT | 开发服务器端口 | 5000 |
 

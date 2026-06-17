@@ -1,13 +1,14 @@
 #!/bin/bash
 set -Eeuo pipefail
 
+# 基于脚本位置定位项目根目录
+SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
+PROJECT_DIR="$(cd "$SCRIPT_DIR/.." && pwd)"
+
+cd "$PROJECT_DIR"
 
 PORT=5000
-COZE_WORKSPACE_PATH="${COZE_WORKSPACE_PATH:-$(pwd)}"
 DEPLOY_RUN_PORT="${DEPLOY_RUN_PORT:-${PORT}}"
-
-
-cd "${COZE_WORKSPACE_PATH}"
 
 kill_port_if_listening() {
     local pids

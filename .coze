@@ -1,0 +1,22 @@
+[project]
+requires = ["nodejs-24"]
+project_type = "web"
+
+[preview]
+preview_enable = "enabled"
+
+[dev]
+build = ["bash", "projects/scripts/prepare.sh"]
+run = ["bash", "projects/scripts/dev.sh"]
+validate = ["bash", "projects/scripts/validate.sh"]
+
+[deploy]
+build = ["bash", "projects/scripts/build.sh"]
+run = ["bash", "projects/scripts/start.sh"]
+
+[deploy.profile]
+kind = "service"
+flavor = "web"
+
+[subprojects]
+path = ["projects"]
