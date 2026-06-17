@@ -1,4 +1,6 @@
 [project]
+sub_id = "ccece2be"
+name = "skygis"
 requires = ["nodejs-24"]
 project_type = "web"
 
