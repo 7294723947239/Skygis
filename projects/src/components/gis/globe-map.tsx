@@ -824,13 +824,27 @@ export default function GlobeMap({ onMapClick, onFeatureSelect, features, layers
     camera.position.set(0, 2, 18);
     cameraRef.current = camera;
 
-    const renderer = new THREE.WebGLRenderer({ antialias: true });
+    let renderer: THREE.WebGLRenderer;
+    try {
+      renderer = new THREE.WebGLRenderer({ antialias: true });
+    } catch (e) {
+      setError(`3D渲染器初始化失败: ${e instanceof Error ? e.message : '未知错误'}`);
+      setIsLoading(false);
+      return;
+    }
     renderer.setSize(w, h);
     renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
     container.appendChild(renderer.domElement);
     rendererRef.current = renderer;
 
-    // OrbitControls - 鼠标交互
+    // WebGL 检测
+  const canvas = document.createElement('canvas');
+  const gl = canvas.getContext('webgl') || canvas.getContext('experimental-webgl');
+  if (!gl) {
+    setError('WebGL 不可用，请使用支持 WebGL 的浏览器（如 Chrome、Firefox）');
+    setIsLoading(false);
+    return;
+  }
     const controls = new OrbitControls(camera, renderer.domElement);
     controls.enableDamping = true;
     controls.dampingFactor = 0.08;
