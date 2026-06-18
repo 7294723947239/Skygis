@@ -457,9 +457,9 @@ export default function SpatialAgentPanel({ onClose, focusedBody, onNavigate, cu
       const glowMultiplier = 1 + result.resonance.moonPhaseModifier * 0.5 + result.resonance.seasonFactor * 0.3;
       const boost = { energyBonus, consciousnessBonus, glowMultiplier };
       setFusionBoost(boost);
-      props.onFusionBoost?.(boost);
+      onFusionBoost?.(boost);
     }
-  }, [fusionMove, fusionHerb, fusionMoon, fusionSeason, fusionLat, props.onFusionBoost]);
+  }, [fusionMove, fusionHerb, fusionMoon, fusionSeason, fusionLat, onFusionBoost]);
 
   // 着陆选址
   const analyzeLandingSites = useCallback(() => {
