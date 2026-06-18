@@ -1065,6 +1065,37 @@ export default function SpatialAgentPanel({ onClose, focusedBody, onNavigate, cu
               <div className="mt-2 text-[10px] text-slate-400">
                 阶段{engineState.evolutionStage} · {stageInfo.description}
               </div>
+              {/* 探针探索反馈指示器 */}
+              <div className="mt-2 flex items-center gap-2 text-[10px]">
+                <div className="flex items-center gap-1">
+                  <div className="w-2 h-2 rounded-full bg-cyan-500 animate-pulse" />
+                  <span className="text-cyan-400">探针已连接</span>
+                </div>
+                <span className="text-slate-600">|</span>
+                <span className="text-slate-500">实时同步中</span>
+              </div>
+            </div>
+
+            {/* 探针探索记录 */}
+            <div className="bg-slate-800/60 rounded-lg p-3">
+              <div className="text-xs text-cyan-400 font-medium mb-2">🚀 探针探索记录</div>
+              <div className="space-y-1 max-h-32 overflow-y-auto">
+                {(engineState as any).recentExplorations?.slice(-5).reverse().map((exp: any, i: number) => (
+                  <div key={i} className="text-[10px] bg-slate-900/50 rounded p-1.5 border border-cyan-900/30">
+                    <div className="flex justify-between text-cyan-300">
+                      <span>{exp.from}</span>
+                      <span>→</span>
+                      <span>{exp.to}</span>
+                    </div>
+                    <div className="text-slate-500 mt-0.5">{exp.detail}</div>
+                  </div>
+                )) || (
+                  <div className="text-[10px] text-slate-600 italic">探针正在探索宇宙...</div>
+                )}
+              </div>
+              <div className="mt-2 text-[9px] text-slate-600 border-t border-slate-700 pt-2">
+                💡 探针探索结果已实时同步至智能体意识系统
+              </div>
             </div>
 
             {/* 进化方向 */}

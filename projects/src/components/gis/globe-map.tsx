@@ -3894,6 +3894,34 @@ export default function GlobeMap({ onMapClick, onFeatureSelect, features, layers
             const stageDisplay = stageNames[stageCycle];
             const cycleDisplay = cycleCount > 0 ? ` [轮回${cycleCount + 1}]` : '';
             probeBrainRef.current = `✨ ${stageDisplay}${consciousnessDepthRef.current.toFixed(1)}%${cycleDisplay} | +${gainPercent}%`;
+            
+            // ====== 【深度关联】探针探索结果反馈给智能体系统 ======
+            // 将探针的探索行为同步到智能体状态，实现探针与智能体的闭环关联
+            const agentId = 'nomad';
+            const targetBodyName = probeBrainRef.current?.match(/([A-Z][a-z]+(?:\s[A-Z][a-z]+)?)/)?.[0] || '未知天体';
+            const targetTypeName = probeBrainRef.current?.includes('Planet') ? '行星' :
+                                   probeBrainRef.current?.includes('Star') ? '恒星' :
+                                   probeBrainRef.current?.includes('Moon') ? '卫星' :
+                                   probeBrainRef.current?.includes('Asteroid') ? '小行星' : '天体';
+            
+            // 异步发送反馈到智能体系统（不阻塞动画循环）
+            fetch('/api/agent/probe-feedback', {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({
+                agent: agentId,
+                targetBody: targetBodyName,
+                targetType: targetTypeName,
+                depthGain: depthGain,
+                explorationPoints: Math.round(depthGain * 10000),
+                discovery: {
+                  type: targetTypeName,
+                  name: targetBodyName,
+                  details: `探针在${targetBodyName}发现意识能量，深度增长${gainPercent}%`
+                },
+                timestamp: Date.now()
+              })
+            }).catch(err => console.error('[探针反馈] 发送失败:', err));
           }
         } else {
           // ====== 【细化决策系统】探针大脑自主决策 ======
