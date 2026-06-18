@@ -225,7 +225,7 @@ function connectSpatialEngine(): boolean {
 // 连接知识库
 function connectKnowledgeBase(): boolean {
   try {
-    const knowledge = require('./knowledge-engine');
+    const knowledge = require('./local-knowledge-engine');
     const entries = knowledge.getAllKnowledge ? knowledge.getAllKnowledge() : [];
     engineConnections.knowledge = {
       connected: true,
