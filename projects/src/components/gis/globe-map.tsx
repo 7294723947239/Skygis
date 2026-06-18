@@ -818,6 +818,15 @@ export default function GlobeMap({ onMapClick, onFeatureSelect, features, layers
     const container = containerRef.current;
     const w = container.clientWidth, h = container.clientHeight;
 
+    // 先检测 WebGL 是否可用
+    const testCanvas = document.createElement('canvas');
+    const gl = testCanvas.getContext('webgl') || testCanvas.getContext('experimental-webgl');
+    if (!gl) {
+      setError('WebGL 不可用，请使用支持 WebGL 的浏览器（如 Chrome、Firefox）');
+      setIsLoading(false);
+      return;
+    }
+
     const scene = new THREE.Scene();
     scene.background = new THREE.Color(0x020510);
     sceneRef.current = scene;
@@ -839,14 +848,6 @@ export default function GlobeMap({ onMapClick, onFeatureSelect, features, layers
     container.appendChild(renderer.domElement);
     rendererRef.current = renderer;
 
-    // WebGL 检测
-  const canvas = document.createElement('canvas');
-  const gl = canvas.getContext('webgl') || canvas.getContext('experimental-webgl');
-  if (!gl) {
-    setError('WebGL 不可用，请使用支持 WebGL 的浏览器（如 Chrome、Firefox）');
-    setIsLoading(false);
-    return;
-  }
     const controls = new OrbitControls(camera, renderer.domElement);
     controls.enableDamping = true;
     controls.dampingFactor = 0.08;
