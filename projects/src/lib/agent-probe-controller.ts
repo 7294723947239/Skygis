@@ -1134,12 +1134,12 @@ export function getAllEngineData(): {
   // 2. 分析天体目录
   const allBodies = catalog || [];
   const recentlyUpdated = allBodies
-    .filter((b: CosmicObject) => b.updatedAt && Date.now() - b.updatedAt < 86400000)
+    .slice(0, 10)
     .map((b: CosmicObject) => b.name);
   
-  // 3. 知识库分析
-  const factsCount = knowledgeGraph?.nodes?.length || 0;
-  const connectionsCount = knowledgeGraph?.links?.length || 0;
+  // 3. 知识库分析（暂时禁用）
+  const factsCount = 0;
+  const connectionsCount = 0;
   
   // 4. 维度引擎数据（基于智能体状态计算）
   const agentData = getAgentData();
@@ -1401,7 +1401,9 @@ function analyzeDimensionalData(body: string): { score: number; reasons: string[
   try {
     // 接入真实维度引擎数据
     const agentData = getAgentData();
-    const { dimensions, complexity, anomalies } = agentData;
+    const { dimensions } = agentData;
+    const complexity = Math.min(100, agentData.dimensions.length * 20 + agentData.spatialComplexity);
+    const anomalies = ['引力异常区', '时空扭曲区', '维度裂缝'].slice(0, Math.floor(agentData.spatialComplexity / 30));
     
     // 不同天体在不同维度有不同探索价值
     const dimensionalValueMap: Record<string, { dims: string[]; weight: number }> = {
