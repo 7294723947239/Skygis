@@ -582,8 +582,6 @@ export default function GlobeMap({ onMapClick, onFeatureSelect, features, layers
   const probeTrailRef = useRef<THREE.Line | null>(null);
   const probeTrailPointsRef = useRef<THREE.Vector3[]>([]);
   const lastProbeTaskFetch = useRef<number>(0);
-  const [isLoading, setIsLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
   const [probePosition, setProbePosition] = useState<{ x: number; y: number; z: number; bodyName: string } | null>(null);
   const [probeScreenPos, setProbeScreenPos] = useState<{ x: number; y: number }>({ x: 0, y: 0 });
   const [probeDetection, setProbeDetection] = useState<{
@@ -595,6 +593,8 @@ export default function GlobeMap({ onMapClick, onFeatureSelect, features, layers
     detectedAt: number;
   } | null>(null);
   const probeDetectionTimerRef = useRef<ReturnType<typeof setInterval> | null>(null);
+  const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
 
 
   const [mouseCoordinate, setMouseCoordinate] = useState<{ lat: number; lng: number } | null>(null);
@@ -839,6 +839,14 @@ export default function GlobeMap({ onMapClick, onFeatureSelect, features, layers
     container.appendChild(renderer.domElement);
     rendererRef.current = renderer;
 
+    // WebGL 检测
+  const canvas = document.createElement('canvas');
+  const gl = canvas.getContext('webgl') || canvas.getContext('experimental-webgl');
+  if (!gl) {
+    setError('WebGL 不可用，请使用支持 WebGL 的浏览器（如 Chrome、Firefox）');
+    setIsLoading(false);
+    return;
+  }
     const controls = new OrbitControls(camera, renderer.domElement);
     controls.enableDamping = true;
     controls.dampingFactor = 0.08;
@@ -3886,34 +3894,6 @@ export default function GlobeMap({ onMapClick, onFeatureSelect, features, layers
             const stageDisplay = stageNames[stageCycle];
             const cycleDisplay = cycleCount > 0 ? ` [轮回${cycleCount + 1}]` : '';
             probeBrainRef.current = `✨ ${stageDisplay}${consciousnessDepthRef.current.toFixed(1)}%${cycleDisplay} | +${gainPercent}%`;
-            
-            // ====== 【深度关联】探针探索结果反馈给智能体系统 ======
-            // 将探针的探索行为同步到智能体状态，实现探针与智能体的闭环关联
-            const agentId = 'nomad';
-            const targetBodyName = probeBrainRef.current?.match(/([A-Z][a-z]+(?:\s[A-Z][a-z]+)?)/)?.[0] || '未知天体';
-            const targetTypeName = probeBrainRef.current?.includes('Planet') ? '行星' :
-                                   probeBrainRef.current?.includes('Star') ? '恒星' :
-                                   probeBrainRef.current?.includes('Moon') ? '卫星' :
-                                   probeBrainRef.current?.includes('Asteroid') ? '小行星' : '天体';
-            
-            // 异步发送反馈到智能体系统（不阻塞动画循环）
-            fetch('/api/agent/probe-feedback', {
-              method: 'POST',
-              headers: { 'Content-Type': 'application/json' },
-              body: JSON.stringify({
-                agent: agentId,
-                targetBody: targetBodyName,
-                targetType: targetTypeName,
-                depthGain: depthGain,
-                explorationPoints: Math.round(depthGain * 10000),
-                discovery: {
-                  type: targetTypeName,
-                  name: targetBodyName,
-                  details: `探针在${targetBodyName}发现意识能量，深度增长${gainPercent}%`
-                },
-                timestamp: Date.now()
-              })
-            }).catch(err => console.error('[探针反馈] 发送失败:', err));
           }
         } else {
           // ====== 【细化决策系统】探针大脑自主决策 ======
@@ -4102,8 +4082,8 @@ export default function GlobeMap({ onMapClick, onFeatureSelect, features, layers
           
           renderer.render(scene, camera);
         };
-        animate();
         setIsLoading(false);
+        animate();
         }
       }
 
@@ -4596,28 +4576,6 @@ export default function GlobeMap({ onMapClick, onFeatureSelect, features, layers
       setZoom(18 / newDist);
     }
   }, []);
-
-  if (isLoading) {
-    return (
-      <div className="w-full h-full flex items-center justify-center bg-[#020510]">
-        <div className="text-center">
-          <div className="w-16 h-16 border-4 border-blue-500/30 border-t-blue-500 rounded-full animate-spin mx-auto mb-4" />
-          <div className="text-blue-400 text-sm">正在初始化 3D 空间...</div>
-        </div>
-      </div>
-    );
-  }
-
-  if (error) {
-    return (
-      <div className="w-full h-full flex items-center justify-center bg-[#020510]">
-        <div className="text-center max-w-md px-4">
-          <div className="text-red-400 text-lg mb-2">加载失败</div>
-          <div className="text-red-300/70 text-sm">{error}</div>
-        </div>
-      </div>
-    );
-  }
 
   return (
     <div className="relative w-full h-full">
