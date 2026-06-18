@@ -648,6 +648,8 @@ export default function GlobeMap({ onMapClick, onFeatureSelect, features, layers
   const [showOverlayNotifications, setShowOverlayNotifications] = useState(false); // 默认关闭覆盖层通知
   const [agentEngineState, setAgentEngineState] = useState<{isRunning: boolean; agentLevel: number; discoveries: number; collectedSubstances: number}>({isRunning: false, agentLevel: 0, discoveries: 0, collectedSubstances: 0});
   const [animDebug, setAnimDebug] = useState<{running: boolean; frames: number; orbitGroups: number; meshes: number; dt: number}>({running: false, frames: 0, orbitGroups: 0, meshes: 0, dt: 0});
+  const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
   
   // 发送通知到 API（供控制面板使用）
   const sendNotificationToAPI = async (notification: any) => {
@@ -4081,6 +4083,7 @@ export default function GlobeMap({ onMapClick, onFeatureSelect, features, layers
           renderer.render(scene, camera);
         };
         animate();
+        setIsLoading(false); // 初始化完成，关闭加载状态
         }
       }
 
@@ -4576,6 +4579,25 @@ export default function GlobeMap({ onMapClick, onFeatureSelect, features, layers
 
   return (
     <div className="relative w-full h-full">
+      {/* 错误状态显示 */}
+      {error && (
+        <div className="absolute inset-0 flex items-center justify-center bg-slate-950 z-50">
+          <div className="text-center p-8">
+            <div className="text-6xl mb-4">⚠️</div>
+            <div className="text-xl text-red-400 font-semibold mb-2">加载失败</div>
+            <div className="text-sm text-slate-400 max-w-md">{error}</div>
+          </div>
+        </div>
+      )}
+      {/* 加载状态显示 */}
+      {isLoading && !error && (
+        <div className="absolute inset-0 flex items-center justify-center bg-slate-950 z-50">
+          <div className="text-center">
+            <div className="text-5xl mb-4 animate-spin">🌍</div>
+            <div className="text-lg text-cyan-400 font-medium">正在初始化 3D 空间...</div>
+          </div>
+        </div>
+      )}
       <div ref={containerRef} className="w-full h-full" />
 
       {/* 探针实时探测信息框 */}
