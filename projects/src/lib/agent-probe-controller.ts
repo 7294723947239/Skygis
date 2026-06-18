@@ -1084,13 +1084,13 @@ let probeBrain: ProbeBrain = {
 // ============================================
 
 // 1. 宇宙物质数据库 - 32519种物质
-import { substances, type Substance } from './universe-knowledge-database';
+import { ALL_COSMIC_SUBSTANCES as substances, type CosmicSubstance as Substance } from './all-cosmic-substances';
 
 // 2. 天体目录
-import { catalog, type CosmicObject } from './cosmic-catalog';
+import { ALL_COSMIC_OBJECTS as catalog, type CosmicObject } from './cosmic-catalog';
 
-// 3. 知识库
-import { knowledgeGraph } from './knowledge-engine';
+// 3. 知识库 (暂时禁用)
+// import { knowledgeGraph } from './knowledge-engine';
 
 // 4. 维度引擎数据
 interface DimensionalData {

@@ -4064,10 +4064,11 @@ export default function GlobeMap({ onMapClick, onFeatureSelect, features, layers
           // 【16】飞行速度应用：基础 + 能力加成
           // 注意：实际速度在目标飞行部分应用
           
-          }
           renderer.render(scene, camera);
         };
         animate();
+        }
+      }
 
     const handleResize = () => {
       if (!container) return;
