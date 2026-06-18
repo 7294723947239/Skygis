@@ -4083,6 +4083,7 @@ export default function GlobeMap({ onMapClick, onFeatureSelect, features, layers
           renderer.render(scene, camera);
         };
         animate();
+        setIsLoading(false);
         }
       }
 
@@ -4578,7 +4579,7 @@ export default function GlobeMap({ onMapClick, onFeatureSelect, features, layers
 
   if (isLoading) {
     return (
-      <div className="w-full h-full flex items-center justify-center bg-[#0a0a1a]">
+      <div className="w-full h-full flex items-center justify-center bg-[#020510]">
         <div className="text-center">
           <div className="w-16 h-16 border-4 border-blue-500/30 border-t-blue-500 rounded-full animate-spin mx-auto mb-4" />
           <div className="text-blue-400 text-sm">正在初始化 3D 空间...</div>
@@ -4589,7 +4590,7 @@ export default function GlobeMap({ onMapClick, onFeatureSelect, features, layers
 
   if (error) {
     return (
-      <div className="w-full h-full flex items-center justify-center bg-[#0a0a1a]">
+      <div className="w-full h-full flex items-center justify-center bg-[#020510]">
         <div className="text-center max-w-md px-4">
           <div className="text-red-400 text-lg mb-2">加载失败</div>
           <div className="text-red-300/70 text-sm">{error}</div>
