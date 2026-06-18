@@ -839,14 +839,6 @@ export default function GlobeMap({ onMapClick, onFeatureSelect, features, layers
     container.appendChild(renderer.domElement);
     rendererRef.current = renderer;
 
-    // WebGL 检测
-  const canvas = document.createElement('canvas');
-  const gl = canvas.getContext('webgl') || canvas.getContext('experimental-webgl');
-  if (!gl) {
-    setError('WebGL 不可用，请使用支持 WebGL 的浏览器（如 Chrome、Firefox）');
-    setIsLoading(false);
-    return;
-  }
     const controls = new OrbitControls(camera, renderer.domElement);
     controls.enableDamping = true;
     controls.dampingFactor = 0.08;
